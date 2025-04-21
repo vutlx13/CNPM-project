@@ -1,21 +1,30 @@
 import cv2
 import numpy as np
-import streamlit as st
 
-def detect_face_from_camera(camera_input):
-    # Đọc hình ảnh từ camera
-    image = cv2.imdecode(np.frombuffer(camera_input.read(), np.uint8), 1)
-    
-    # Chuyển đổi sang màu RGB
-    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    
-    # Nhận diện khuôn mặt
+def detect_face_from_camera():
+    # Mở webcam (0 là chỉ số của webcam mặc định)
+    cap = cv2.VideoCapture(0)
+
+    if not cap.isOpened():
+        raise ValueError("Không thể mở camera. Vui lòng kiểm tra lại thiết bị.")
+
+    # Chụp một ảnh từ camera
+    ret, frame = cap.read()
+    cap.release()  # Đóng kết nối camera
+
+    if not ret:
+        raise ValueError("Không thể chụp ảnh từ camera.")
+
+    # Chuyển ảnh sang grayscale
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # Sử dụng CascadeClassifier để nhận diện khuôn mặt
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
     # Vẽ hình chữ nhật quanh khuôn mặt
     for (x, y, w, h) in faces:
-        cv2.rectangle(image_rgb, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-    return image_rgb
+    return frame
