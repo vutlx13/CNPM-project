@@ -1,7 +1,5 @@
 import cv2
 import numpy as np
-from io import BytesIO
-from PIL import Image
 
 def detect_face_from_upload(file):
     # Đọc ảnh từ file
