@@ -67,7 +67,7 @@
 </head>
 
 <body class="bg-white text-gray-900 font-sans fade-in">
-                <!-- Bảng xanh dương trên cùng -->
+               <!-- Bảng xanh dương trên cùng -->
     <div class="max-w-full max-h-full py-0 px-6 bg-blue-500 rounded-b-xl mx-auto">
         <div class="py-2.5 flex items-center">
             <img src="static/brand.png" alt="Icon" class="w-[17%] h-auto cursor-pointer" onclick="window.location.reload()">
@@ -81,8 +81,11 @@
                 <span class="text-gray-300 text-ml">|</span>
                 <a href="https://github.com/vutlx13/CNPM-project" target="_blank" class="text-red-100 cursor-pointer">Git: CNPM-Project</a>
             </div>
-
-            <div class="text-white flex ml-[950px] space-x-5 pt-1">
+            <div class="text-white flex items-center space-x-4 ml-[670px] pt-2 pb-1">
+                <img src="static/user.png" alt="User" class="w-[25px]  h-auto">
+                <p class="mt-1 font-semibold">{{ user_id }}</p>
+            </div>
+            <div class="text-white flex ml-[165px] space-x-5 pt-1">
                 <div class="relative">
                     <svg onclick="document.getElementById('tin_nhan').classList.toggle('hidden')" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-5 -5 35 35" stroke-width="1.5" stroke="currentColor" class="size-10 rounded-3xl hover:bg-blue-600 hover:scale-[1.2] transition-transform cursor-pointer">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
@@ -106,7 +109,7 @@
                 </svg>                                           
             </div>
         </div>
-    </div> 
+    </div>
                         <!-- Chức năng-->
     <div class="bg-white flex max-w-full min-h-[665px] h-auto mx-auto pt-10 px-6">
         <!-- ==== Chọn ảnh từ thư viện ==== -->
@@ -141,9 +144,20 @@
                     <div class="flex justify-center">
                         <p id="statusMessage" class="text-green-600 font-semibold mt-2 hidden">Đã phân tích xong!</p>
                     </div>
-                    <div class="flex justify-center">
-                        <button id="uploadButton" type="submit" class="bg-blue-700 text-white font-semibold px-4 py-2 mt-2 rounded hover:bg-blue-900 hover:shadow-2xl hover:scale-[1.05] transition-all">Phân tích</button>
+                    <div class="mt-2 flex relative justify-center items-center">
+                        <button id="uploadButton" type="submit" class="bg-blue-700 text-white font-semibold px-4 py-2 rounded hover:bg-blue-900 hover:shadow-2xl hover:scale-[1.05] transition-all">Phân tích</button>
+                        <button id="downloadButton" class=" absolute left-[95%] hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-5 -5 35 35" stroke-width="1.5" stroke="currentColor" class="size-8 rounded-md border-[1px] hover:bg-gray-100 hover:scale-[1.1] shadow-md">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            </svg>
+                        </button>
+                        <button id="publicBtn" class="absolute left-[87%] hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-5 -5 35 35" stroke-width="1.5" stroke="currentColor" class="size-8 rounded-md border-[1px] hover:bg-gray-100 hover:scale-[1.1] shadow-md">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+                            </svg>
+                        </button>
                     </div>
+                    
                 </div>
             </section>
         </div>       
@@ -157,13 +171,16 @@
         const imagePreview = document.getElementById('imagePreview');
         const uploadButton = document.getElementById('uploadButton');
         const statusMessage = document.getElementById('statusMessage');
-
+        const downloadButton = document.getElementById('downloadButton');
+        const publicBtn = document.getElementById('publicBtn')
         let selectedLibraryImageUrl = null;
         let selectedUploadFile = null;
     
         // 📂 Xử lý khi người dùng chọn ảnh từ máy
         imageInput.addEventListener('change', function (event) {
             statusMessage.classList.add('hidden');
+            downloadButton.classList.add('hidden');
+            publicBtn.classList.add('hidden');
             const file = event.target.files[0];
             if (file) {
                 selectedUploadFile = file;
@@ -178,7 +195,7 @@
             }
         });
     
-        // ⏫ Xử lý khi ấn nút "Tải lên" (phân tích)
+        // ⏫ Xử lý khi ấn nút "Phân tích" (phân tích)
         uploadButton.addEventListener('click', function () {
             if (selectedUploadFile) {
                 const formData = new FormData();
@@ -188,11 +205,21 @@
                     method: 'POST',
                     body: formData
                 })
-                    .then(response => response.blob())
-                    .then(blob => {
-                        const imgURL = URL.createObjectURL(blob);
+                    .then(response => response.json())
+                    .then(data => {
+                        const imgURL = data.image;
+                        currentFilename = data.filename;
+
                         imagePreview.src = imgURL;
                         statusMessage.classList.remove('hidden');
+
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = imgURL;
+                        downloadLink.download = 'ketqua.png';
+                        downloadButton.classList.remove('hidden');
+                        publicBtn.classList.remove('hidden');
+                        downloadButton.onclick = function () {
+                            downloadLink.click(); };
                     })
                     .catch(err => {
                         alert('Lỗi khi xử lý ảnh upload: ' + err.message);
@@ -206,11 +233,21 @@
                     },
                     body: JSON.stringify({ image_url: selectedLibraryImageUrl })
                 })
-                    .then(response => response.blob())
-                    .then(blob => {
-                        const imgURL = URL.createObjectURL(blob);
+                    .then(response => response.json())
+                    .then(data => {
+                        const imgURL = data.image;
+                        currentFilename = data.filename;
+
                         imagePreview.src = imgURL;
                         statusMessage.classList.remove('hidden');
+
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = imgURL;
+                        downloadLink.download = 'ketqua.png';
+                        downloadButton.classList.remove('hidden');
+                        publicBtn.classList.remove('hidden'); 
+                        downloadButton.onclick = function () {
+                            downloadLink.click(); };
                     })
                     .catch(err => {
                         alert('Lỗi khi xử lý ảnh từ thư viện!');
@@ -250,7 +287,15 @@
                         // Gắn thẻ div vào thư viện
                         libraryContainer.appendChild(div);
 
-                        const fullUrl = window.location.origin + '/' + image.url;
+                        let fullUrl;
+                        if (/^https?:\/\//i.test(image.url)) {
+                            // Link từ mạng → dùng nguyên
+                            fullUrl = image.url;
+                        } else {
+                            // Link nội bộ → gắn domain hiện tại vào
+                            fullUrl = window.location.origin + '/' + image.url;
+                        }
+                        
                         div.addEventListener('click', () => {
                             handleLibraryImageSelect(fullUrl);
                         });
@@ -268,8 +313,30 @@
             selectedLibraryImageUrl = imageUrl;
             selectedUploadFile = null;  // Reset file upload nếu có
             statusMessage.classList.add('hidden');
+            downloadButton.classList.add('hidden');
+            publicBtn.classList.add('hidden');
             imagePreview.src = imageUrl;
             imagePreviewContainer.classList.remove('hidden');
         }
+
+        // ấn nút công khai
+        publicBtn.addEventListener('click', function() {
+            fetch("/public_image", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    filename: currentFilename  // bạn cần có biến lưu tên file đã xử lý
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message || "Công khai thành công!");
+            })
+            .catch(error => {
+                alert("Lỗi khi công khai ảnh: " + error);
+            });
+        });
     </script>    
 </body>
