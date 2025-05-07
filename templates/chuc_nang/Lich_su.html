@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nhận diện khuôn mặt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* đổ bóng chữ */
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+        }
+        /*tự tạo shadow đậm */
+        .custom-shadow {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        /*chỉ tạo shadow khi hover*/
+        .custom-shadow-hv {
+            box-shadow: 0 0 0 rgba(76, 7, 215, 0.747);
+            transition:box-shadow 0.5s ease;
+        }
+        .custom-shadow-hv:hover {
+            box-shadow: 0 4px 10px rgba(76, 7, 215, 0.747), 0 4px 15px rgba(76, 7, 215, 0.496);
+           
+        }
+        .parent:hover .custom-shadow-hv {
+            box-shadow: 0 4px 10px rgba(76, 7, 215, 0.747), 0 4px 15px rgba(76, 7, 215, 0.496);
+        }
+        .parent:hover .child-text {
+            color: #0863f7;
+        }
+        /* hiệu ứng mở trang*/
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards; 
+        }
+        @keyframes fadeIn {
+            0% {
+            opacity: 0;
+            }
+            100% {
+            opacity: 1;
+            }
+        }
+         /* hiệu ứng chữ */
+        .underline-hover {
+            position: relative;
+        }
+        .underline-hover::after {
+            content: "";
+            position: absolute;
+            display: block;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #3b82f6; 
+            transition: width 0.7s;
+        }
+
+        .underline-hover:hover::after {
+            width: 100%;
+        }
+    </style>
+    
+</head>
+
+<body class="bg-white text-gray-900 font-sans fade-in">
+               <!-- Bảng xanh dương trên cùng -->
+    <div class="max-w-full max-h-full py-0 px-6 bg-blue-500 rounded-b-xl mx-auto">
+        <div class="py-2.5 flex items-center">
+            <img src="static/brand.png" alt="Icon" class="w-[17%] h-auto cursor-pointer" onclick="window.location.reload()">
+            <div class="text-white flex ml-20 space-x-2 pt-1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    <path d="M11.7 2.805a.75.75 0 0 1 .6 0A60.65 60.65 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337 49.948 49.948 0 0 0-9.902 3.912l-.003.002c-.114.06-.227.119-.34.18a.75.75 0 0 1-.707 0A50.88 50.88 0 0 0 7.5 12.173v-.224c0-.131.067-.248.172-.311a54.615 54.615 0 0 1 4.653-2.52.75.75 0 0 0-.65-1.352 56.123 56.123 0 0 0-4.78 2.589 1.858 1.858 0 0 0-.859 1.228 49.803 49.803 0 0 0-4.634-1.527.75.75 0 0 1-.231-1.337A60.653 60.653 0 0 1 11.7 2.805Z" />
+                    <path d="M13.06 15.473a48.45 48.45 0 0 1 7.666-3.282c.134 1.414.22 2.843.255 4.284a.75.75 0 0 1-.46.711 47.87 47.87 0 0 0-8.105 4.342.75.75 0 0 1-.832 0 47.87 47.87 0 0 0-8.104-4.342.75.75 0 0 1-.461-.71c.035-1.442.121-2.87.255-4.286.921.304 1.83.634 2.726.99v1.27a1.5 1.5 0 0 0-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.66a6.727 6.727 0 0 0 .551-1.607 1.5 1.5 0 0 0 .14-2.67v-.645a48.549 48.549 0 0 1 3.44 1.667 2.25 2.25 0 0 0 2.12 0Z" />
+                    <path d="M4.462 19.462c.42-.419.753-.89 1-1.395.453.214.902.435 1.347.662a6.742 6.742 0 0 1-1.286 1.794.75.75 0 0 1-1.06-1.06Z" />
+                </svg>
+                <span class="font-bold text-lg">CNPM: nhóm 3</span>
+                <span class="text-gray-300 text-ml">|</span>
+                <a href="https://github.com/vutlx13/CNPM-project" target="_blank" class="text-red-100 cursor-pointer">Git: CNPM-Project</a>
+            </div>
+            <div class="text-white flex items-center space-x-4 ml-[670px] pt-2 pb-1">
+                <img src="static/user.png" alt="User" class="w-[25px]  h-auto">
+                <p class="mt-1 font-semibold">{{ user_id }}</p>
+            </div>
+            <div class="text-white flex ml-[165px] space-x-5 pt-1">
+                <div class="relative">
+                    <svg onclick="document.getElementById('tin_nhan').classList.toggle('hidden')" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-5 -5 35 35" stroke-width="1.5" stroke="currentColor" class="size-10 rounded-3xl hover:bg-blue-600 hover:scale-[1.2] transition-transform cursor-pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                    </svg>
+                    <div id="tin_nhan" class="text-gray-600 text-[15px] flex items-center justify-center px-2 py-2 font-semibold custom-shadow rounded-lg absolute hidden bg-white h-[50px] w-[250px] left-[-230px] bottom-[-130%]">
+                        Tính năng không khả dụng.
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <svg onclick="document.getElementById('thong_bao').classList.toggle('hidden')" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-7 -7 37 37" stroke-width="1.5" stroke="currentColor" class="size-10 rounded-3xl hover:bg-blue-600 hover:scale-[1.2] transition-transform cursor-pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                    </svg>
+                    <div id="thong_bao" class="text-gray-600 text-[15px] flex items-center justify-center px-2 py-2 font-semibold custom-shadow rounded-lg absolute hidden bg-white h-[50px] w-[250px] left-[-230px] bottom-[-130%]">
+                        Bạn không có thông báo mới.
+                    </div>                      
+                </div>
+
+                <svg onclick="window.location.href='/'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-8 -8 40 40" stroke-width="1.5" stroke="currentColor" class="size-10 rounded-3xl hover:bg-blue-600 hover:scale-[1.2] transition-transform cursor-pointer">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                </svg>                                           
+            </div>
+        </div>
+    </div>
+                        <!-- Thư Viện-->
+    <div class=" bg-white mx-auto min-h-[665px] flex pt-10 px-6">
+                <!-- ==== Chọn ảnh từ thư viện ==== -->
+        <div class=" bg-white w-full flex justify-center">
+            <section class="mb-5 w-[1200px] flex flex-col items-center bg-white pt-6 rounded-xl custom-shadow">
+                <div class="flex justify-center">
+                    <h2 class="text-xl flex justify-center bg-green-400 text-gray-500 scale-[1.2] rounded-xl w-[150px] py-2 font-bold mb-4">📖 Lịch Sử</h2>
+                </div>
+
+                <div class="flex justify-center w-[900px] h-[520px] bg-white overflow-auto">    
+                    <div id="historyContainer" class="mt-4 pl-5  h-auto rounded-xl grid grid-cols-3 gap-x-20 gap-y-10">
+                        <!-- Ảnh từ thư viện sẽ được thêm vào đây -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        let selectedHistoryImageUrl = null;
+    
+        // 🖼️ Hàm load ảnh lịch sử
+        function loadHistoryImages() {
+            const historyContainer = document.getElementById('historyContainer');
+            fetch('/get_history_images')
+                .then(response => response.json())
+                .then(data => {
+                    historyContainer.innerHTML = '';
+                    data.history_images.forEach((image, index) => {
+                        const div = document.createElement('div');
+                        div.className = 'flex max-h-[30px] max-w-auto items-center space-x-2 cursor-pointer text-gray-600 text-lg font-semibold';
+    
+                        const order = document.createElement('span');
+                        order.textContent = `${index + 1}.`;
+    
+                        const name = document.createElement('p');
+                        name.textContent = image.filename;
+                        name.className = 'whitespace-nowrap';
+    
+                        // Hiển thị ảnh theo URL hoặc đường dẫn tương đối
+                        const img = document.createElement('img');
+                        img.src = window.location.origin + '/uploads/' + image.filename; // Giả sử bạn lưu ảnh trong thư mục "uploads"
+                        img.alt = image.filename;
+                        img.className = 'w-[200px] h-[200px] rounded-lg';
+                        
+                        div.appendChild(img);
+                        div.appendChild(order);
+                        div.appendChild(name);
+                       
+                        const hop = document.createElement('div');
+                        hop.className = 'flex flex-col items-center'
+                        hop.appendChild(img);
+                        hop.appendChild(div);
+    
+                        historyContainer.appendChild(hop);
+                    });
+                })
+                .catch(err => {
+                    alert("Không tải được lịch sử ảnh!");
+                    console.error(err);
+                });
+        }
+    
+        // 📌 Gọi hàm khi trang vừa load
+        window.addEventListener('DOMContentLoaded', loadHistoryImages);
+    </script>
+    
+    
+                    <!--Phần nền xanh đáy-->
+    <div class="bg-[#cce0fb] h-[180px] w-full rounded-t-3xl "></div>
+</body>
